@@ -348,10 +348,6 @@ end
 
 local InviteUnit = InviteUnit or C_PartyInfo.InviteUnit
 local function OnGuildmateClick( self, button )
-	-- for k,v in pairs(self) do
-		-- print( k,v )
-	-- end
-	-- print (self.name:GetText())
 	if not( self and self.unit ) then return end
 	if (isGuild or not self.presenceID) and button == "RightButton" and not IsControlKeyDown() then
 		local level = IsShiftKeyDown() and 2 or IsAltKeyDown() and 3 or 1
@@ -560,7 +556,6 @@ local function SetButtonData( index, inGroup )
 
 	local class, name, level, zone, notes, status, _, rank, realIndex, isMobile = unpack( (isGuild and guildEntries or friendEntries)[index] )
 	button.unit = name
-	--print(index, name)
 	button.realIndex = realIndex
 	button.name:SetFormattedText( (status and preformatedStatusText or "")..(name or""), status )
 	if name and class and class ~= "" then
@@ -872,16 +867,13 @@ UpdateTablet = function()
 	else
 		entries = friendEntries
 		totalRF, onlineRF = BNGetNumFriends()
-		nbRealFriends = totalRF
+		nbRealFriends = onlineRF
 	end
-	
-	--print("onlineRF", onlineRF, "#entries", #entries)
 
 	local nbTotalEntries = #entries + onlineRF
 	local HackedEntries = #entries + 0
 	local rid_width, button = 0
 
-	--print("nbTotalEntries", nbTotalEntries)
 	realFriendsHeight = 0
 
 	local nameC, levelC, zoneC, notesC, rankC = 0, 0, 0, 0, -GAP
@@ -912,12 +904,8 @@ UpdateTablet = function()
 			end
 		end
 
-		--print("HackedEntries", HackedEntries,"nbBroadcast", nbBroadcast)
-
 		realFriendsHeight = (onlineRF+nbBroadcast) * BUTTON_HEIGHT + (#entries>0 and GAP or 0)
 		
-			--print("realFriendsHeight/button", realFriendsHeight/BUTTON_HEIGHT, realFriendsHeight)
-
 		if hideNotes then nC = -GAP end
 
 		spanZoneC = max( spanZoneC, lC + GAP + ICON_SIZE + TEXT_OFFSET + zC )
@@ -939,9 +927,6 @@ UpdateTablet = function()
 			button.rank:SetPoint( "TOPLEFT", hideNotes and button.zone or button.note, "TOPRIGHT", GAP, 0 )
 		end
 	end
-	
-	--print("onlineRF", onlineRF, "#entries", #entries)
-
 
 	if hideNotes then notesC = -GAP end
 	local maxWidth = max( rid_width, ICON_SIZE + TEXT_OFFSET + nameC + levelC + zoneC + notesC + rankC + GAP * 4 )
@@ -1078,8 +1063,6 @@ UpdateTablet = function()
 		maxWidth + GAP*2 + (hasSlider and 16 + TEXT_OFFSET*2 or 0),
 		extraHeight + realFriendsHeight + BUTTON_HEIGHT * nbEntries + GAP*2 
 	)
-	
-	--print("realFriendsHeight/button", realFriendsHeight/BUTTON_HEIGHT)
 
 	if not (f.onBlock or f:IsMouseOver()) then f:Hide() end
 end
