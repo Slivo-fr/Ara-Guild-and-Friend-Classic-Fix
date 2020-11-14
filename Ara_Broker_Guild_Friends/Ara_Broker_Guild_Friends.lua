@@ -69,6 +69,7 @@ local defaultConfig = {
 	hbConfig = true,
 	hbToggleNotes = true,
 	hbAddFriend = true,
+	enableBnetFriendsBroadcasts = true,
 }
 local dontShow, block, horde, config, isGuild, tip = true
 local guildEntries, friendEntries, motd, slider, nbEntries = {}, {}
@@ -594,15 +595,18 @@ local function SetToastData( index, inGroup )
 	local _, _, game, realm, realmID, faction, race, class, guild, zone, level, gameText, _, _, _, _, _, isGameAFK, isGameBusy, guid, wowProjectID = GetBNGetGameAccountInfo(toonID or 0)
 	local statusText = config.statusMode ~= "icon" and (isAFK or isDND) and (preformatedStatusText):format(isAFK and CHAT_FLAG_AFK or isDND and CHAT_FLAG_DND) or ""
 
-	-- Disabled broadcasts as I don't care
-	--if broadcast and broadcast ~= "" then
-	--	nbBroadcast = nbBroadcast + 1
-	--	bc = broadcasts[nbBroadcast]
-	--	bc.text:SetText(broadcast)
-	--	toast.bcIndex = nbBroadcast
-	--else	toast.bcIndex = nil end
-	toast.bcIndex = nil
-
+    if (config.enableBnetFriendsBroadcasts) then
+        if broadcast and broadcast ~= "" then
+        	nbBroadcast = nbBroadcast + 1
+        	bc = broadcasts[nbBroadcast]
+        	bc.text:SetText(broadcast)
+        	toast.bcIndex = nbBroadcast
+        else
+        	toast.bcIndex = nil
+        end
+	else
+	    toast.bcIndex = nil
+    end
 	toast.presenceID = presenceID
 	toast.unit = BNet_GetValidatedCharacterName and BNet_GetValidatedCharacterName(toonName, battleTag, client) or toonName
 	toast.realID = presenceName
@@ -1137,6 +1141,7 @@ function f:SetupConfigMenu()
 			{ text = "Show guild XP tooltip", check = "showGuildXPTooltip" },
 		} },
 		{ text = "Show own broadcast", check = "showOwnBroadcast" },
+		{ text = "Show bnet friends broadcast", check = "enableBnetFriendsBroadcasts" },
 		{ text = "Show guild notes", check = "showGuildNotes" },
 		{ text = "Show friend notes", check = "showFriendNotes" },
 		{ text = "Show class icon when grouped", check = "showUngroupedClassIcon" },
