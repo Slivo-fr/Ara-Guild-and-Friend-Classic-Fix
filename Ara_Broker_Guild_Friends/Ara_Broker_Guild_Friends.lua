@@ -986,7 +986,7 @@ UpdateTablet = function()
 	if not isGuild and nbRealFriends>0 then
 		local header, bcOffset = motd, 0
 		local bcWidth = maxWidth - 2*(ICON_SIZE - TEXT_OFFSET) -2*GAP
-		for i=1, #toasts do
+		for i=1, onlineRF + nbBroadcast do
 			local b = toasts[i]
 			b:SetPoint("TOPLEFT", header, "BOTTOMLEFT", 0, (1-i-bcOffset)*BUTTON_HEIGHT)
 			if b.bcIndex then
