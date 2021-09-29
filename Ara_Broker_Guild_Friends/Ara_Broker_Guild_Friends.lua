@@ -7,10 +7,9 @@ local _, _, _, wowTOC = GetBuildInfo()
 
 local BUTTON_HEIGHT, ICON_SIZE, GAP, TEXT_OFFSET, INFO_HEIGHT, FONT_SIZE, MAX_ENTRIES = 15, 13, 10, 5, 25, 12
 
-local f = CreateFrame( "Frame", "AraBrokerGuildFriends", UIParent)
-if wowTOC >= 90000 then
-	Mixin(f, BackdropTemplateMixin)
-end
+local f = CreateFrame( "Frame", "AraBrokerGuildFriends", UIParent, BackdropTemplate)
+Mixin(f, BackdropTemplateMixin)
+
 f:Hide()
 local t = CreateFrame"Frame"
 local addonName, L = ...
@@ -1065,7 +1064,7 @@ UpdateTablet = function()
 
 	f:SetSize( 
 		maxWidth + GAP*2 + (hasSlider and 16 + TEXT_OFFSET*2 or 0),
-		extraHeight + realFriendsHeight + BUTTON_HEIGHT * nbEntries + GAP*2 
+		extraHeight + realFriendsHeight + BUTTON_HEIGHT * nbEntries + GAP*2
 	)
 
 	if not (f.onBlock or f:IsMouseOver()) then f:Hide() end
@@ -1532,10 +1531,9 @@ function f:ADDON_LOADED( addon )
 	f:RegisterEvent"BN_CONNECTED"
 	f:RegisterEvent"BN_DISCONNECTED"
 
-	slider = CreateFrame("Slider", nil, f)
-	if wowTOC >= 90000 then
-		Mixin(slider, BackdropTemplateMixin)
-	end
+	slider = CreateFrame("Slider", nil, f, BackdropTemplate )
+	Mixin(slider, BackdropTemplateMixin)
+
 	slider:SetWidth(16)
 	slider:SetThumbTexture("Interface\\Buttons\\UI-SliderBar-Button-Horizontal")
 	slider:SetBackdrop( {
