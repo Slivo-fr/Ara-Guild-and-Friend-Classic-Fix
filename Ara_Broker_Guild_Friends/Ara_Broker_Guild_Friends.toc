@@ -1,6 +1,6 @@
-## Interface: 90001
+## Interface: 11400
 ## Title: Ara - Broker - Guild & Friends
-## Version: r84
+## Version: r85
 ## Author: Ara
 ## Notes: Provides guildmates & friends informations and interactions.
 ## SavedVariables: AraBrokerGuildFriendsDB
